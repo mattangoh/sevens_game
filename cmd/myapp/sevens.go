@@ -39,8 +39,16 @@ func main() {
   
   dealer := DealerRoll()
 
-  fmt.Printf("The first value is %v. The second value is %v, the sum is %v",
+  fmt.Printf("The first roll is %v. The second roll is %v. The sum is %v.\n",
   dealer.roll1, dealer.roll2, dealer.sum)
+  fmt.Println("...")
+  time.Sleep(2 * time.Second)
+
+  DetermineOutcome(&user, &dealer)
+
+  fmt.Println("**********")
+  fmt.Println("Thank you for playing the Sevens Game!")
+  fmt.Println("**********")
 
 }
 
@@ -96,3 +104,38 @@ func UserInput() User {
   return user
 }
 
+func DetermineOutcome(user *User, dealer *Rolls) {
+  var payout float64
+
+  switch user.guess {
+    case "over":
+      if dealer.sum > 7 {
+        fmt.Println("You win!")
+        payout = 2*user.betAmount
+      } else {
+        fmt.Println("You lose!")
+        payout = 0
+      }
+    case "under":
+      if dealer.sum < 7 {
+        fmt.Println("You win!")
+        payout = 2*user.betAmount
+      } else {
+        fmt.Println("You lose!")
+        payout = 0
+      }
+    case "sevens":
+      if dealer.sum == 7 {
+        fmt.Println("You win!")
+        payout = 5*user.betAmount
+      } else {
+        fmt.Println("You lose!")
+        payout = 0
+      }
+    default:
+      fmt.Println("Something weird happened... Returning original bet.\n")
+      payout = user.betAmount
+  }
+
+  fmt.Printf("You receive $%v!\n", payout)
+}
