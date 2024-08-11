@@ -71,3 +71,58 @@ func TestUserInput_ValidateGuess(t *testing.T) {
     t.Errorf("Expected an error for invalid guess, but got none")
   }
 }
+
+func TestDetermineOutcome(t *testing.T) {
+  tests := []struct {
+    name string
+    user User
+    dealer Rolls
+    expectedPayout float64
+  }{
+    {
+      name: "Over - Win",
+      user: User{betAmount: 100, guess: "over"},
+      dealer: Rolls{roll1: 2, roll2: 6, sum: 8},
+      expectedPayout: 200,
+    },
+    {
+      name: "Over - Lose",
+      user: User{betAmount: 100, guess: "over"},
+      dealer: Rolls{roll1: 3, roll2: 3, sum: 6},
+      expectedPayout: 0,
+    },
+    {
+        name: "Under - Win",
+        user: User{betAmount: 100, guess: "under"},
+        dealer: Rolls{roll1: 2, roll2: 4, sum: 6},
+        expectedPayout: 200,
+    },
+    {
+        name: "Under - Lose",
+        user: User{betAmount: 100, guess: "under"},
+        dealer: Rolls{roll1: 5, roll2: 4, sum: 9},
+        expectedPayout: 0,
+    },
+    {
+        name: "Sevens - Win",
+        user: User{betAmount: 100, guess: "sevens"},
+        dealer: Rolls{roll1: 3, roll2: 4, sum: 7},
+        expectedPayout: 500,
+    },
+    {
+        name: "Sevens - Lose",
+        user: User{betAmount: 100, guess: "sevens"},
+        dealer: Rolls{roll1: 2, roll2: 3, sum: 5},
+        expectedPayout: 0,
+    },
+  }
+
+  for _, tt := range tests {
+    t.Run(tt.name, func(t *testing.T){
+      payout := DetermineOutcome(&tt.user, &tt.dealer)
+      if payout != tt.expectedPayout {
+        t.Errorf("Expected payout %v, but got %v", tt.expectedPayout, payout)
+      }
+    })
+  }
+}

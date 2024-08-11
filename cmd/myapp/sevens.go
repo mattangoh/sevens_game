@@ -104,7 +104,7 @@ func UserInput() User {
   return user
 }
 
-func DetermineOutcome(user *User, dealer *Rolls) {
+func DetermineOutcome(user *User, dealer *Rolls) float64 {
   var payout float64
 
   switch user.guess {
@@ -133,9 +133,10 @@ func DetermineOutcome(user *User, dealer *Rolls) {
         payout = 0
       }
     default:
-      fmt.Println("Something weird happened... Returning original bet.\n")
+      fmt.Println("Something weird happened... Returning original bet.")
       payout = user.betAmount
   }
 
   fmt.Printf("You receive $%v!\n", payout)
+  return payout
 }
