@@ -116,13 +116,10 @@ func TestDetermineOutcome(t *testing.T) {
         expectedPayout: 0,
     },
   }
-
   for _, tt := range tests {
-    t.Run(tt.name, func(t *testing.T){
       payout := DetermineOutcome(&tt.user, &tt.dealer)
       if payout != tt.expectedPayout {
-        t.Errorf("Expected payout %v, but got %v", tt.expectedPayout, payout)
+          t.Errorf("Test %s failed: expected payout %v, but got %v", tt.name, tt.expectedPayout, payout)
       }
-    })
   }
 }
