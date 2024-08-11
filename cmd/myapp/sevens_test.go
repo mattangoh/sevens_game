@@ -30,6 +30,10 @@ func TestDealerRoll(t *testing.T) {
   }
 }
 
+// Since I dont think I have the necessary skills yet to deal with user inputs and mocking that in the test code
+// I opt to split my function rather than test it itself... Pros and Cons, but maybe something to revisit
+// in the future.
+
 func validateBet(amount float64) error { 
   if amount <=0 {
     return errors.New("Bet must be greater than 0.")

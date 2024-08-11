@@ -66,7 +66,7 @@ func UserInput() User {
       // In case of extra lines
       var discard string
       fmt.Scanln(&discard)
-    } else if betAmount < 0 {
+    } else if betAmount <= 0 {
         fmt.Println("Bet amount must be greater than $0")
     } else {
         break
