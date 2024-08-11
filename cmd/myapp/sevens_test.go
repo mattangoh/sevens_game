@@ -1,7 +1,8 @@
 package main
 
 import (
-  "testing"
+	"errors"
+	"testing"
 )
 
 func TestDealerRoll(t *testing.T) {
@@ -26,5 +27,43 @@ func TestDealerRoll(t *testing.T) {
     if dealer.roll2 < 1 || dealer.roll2 > 6 {
       t.Errorf("Expected roll2 to be between 1 and 6, but got %v", dealer.roll2)
     }
+  }
+}
+
+func validateBet(amount float64) error { 
+  if amount <=0 {
+    return errors.New("Bet must be greater than 0.")
+  }
+  return nil
+}
+
+func TestUserInput_ValidateBet(t *testing.T) {
+  if err := validateBet(50); err != nil {
+    t.Errorf("Expected no error, but got %v", err)
+  }
+
+  if err := validateBet(-10); err == nil {
+    t.Errorf("Expected error for negative bet amount, but got none")
+  }
+
+  if err := validateBet(0); err == nil {
+    t.Errorf("Expected error for zero bet amount, but got none")
+  }
+}
+
+func validateGuess(guess string) error {
+  if guess != "over" && guess != "under" && guess != "sevens" {
+    return errors.New("invalid guess, must be either 'over', 'under', or 'sevens'")
+  }
+  return nil
+}
+
+func TestUserInput_ValidateGuess(t *testing.T) {
+  if err := validateGuess("over"); err != nil {
+    t.Errorf("Expected no error, but got %v", err)
+  }
+
+  if err := validateGuess("invalid"); err == nil {
+    t.Errorf("Expected an error for invalid guess, but got none")
   }
 }
